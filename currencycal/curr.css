@@ -1,0 +1,41 @@
+body{
+    background-image: url(https://wallpaperaccess.com/full/333770.jpg);
+    backdrop-filter: blur(8px);
+    z-index: 1;
+    position: fixed;
+    margin: 8% 0 0 32%;
+    padding: 4% 5% 5% 5%;
+    text-align: center  ;
+    border-radius: 40px;
+}
+
+h2{
+    font-size:40px;
+    color: beige;
+    font-weight: 500px;
+    font-family:monospace,Arial, Helvetica, sans-serif;
+    text-shadow: 4px 4px 4px rgb(182, 152, 34);
+}
+#amount{
+    width: 50%;
+    height: 100%;
+    font-size: larger;
+
+  
+}
+#amount:hover{
+    color: black;
+    box-shadow: 4px 4px 5px black;
+
+}
+#converted{
+     width: 50%;
+    height: 100%;
+    font-size: larger;
+}
+#converted:hover{
+    color: black;
+    box-shadow: 4px 4px 5px black;
+
+}
+

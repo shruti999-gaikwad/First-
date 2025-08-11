@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>currency converter</title>
+    <link rel="stylesheet" href="curr.css">
+</head>
+<body>
+    <div class="converter" >
+        <h2>Currency converter</h2>
+        <div class="row">
+            <input type="number" id="amount" placeholder="Enter  amount">
+            <select  id="from-currency"></select>
+        </div><br>
+        <div class="swap" id="swap">&#8645;</div><br>
+        <div class="row">
+            <input type="text" id="converted" placeholder="Convert amount" />
+            <select  id="to-currency"></select><br><br>
+            
+        </div>
+
+        
+    </div>
+    <script >
+        
+        const fromCurrency = document.getElementById("from-currency");
+        const toCurrency = document.getElementById("to-currency");
+        const amount = document.getElementById("amount");
+        const convertedAmount = document.getElementById("converted");
+        const swap = document.getElementById("swap");
+
+        const currencies = ["USD", "EUR", "GBP", "INR", "JPY", "AUD", "CAD", "CHF", "CNY", "HKD", "NZD", "SGD", "THB", "KRW", "MYR", "IDR", "PHP", "VND", "MXN", "BRL", "ARS", "CLP", "COP", "PEN", "UYU"];
+
+        currencies.forEach(currency => {
+            const option1 = document.createElement("option");
+            option1.value = currency;
+            option1.textContent = currency; // Fixed: was textcontent
+            fromCurrency.appendChild(option1);
+
+            const option2 = document.createElement("option");
+            option2.value = currency;
+            option2.textContent = currency; // Fixed: was text
+            toCurrency.appendChild(option2);
+        });
+
+        fromCurrency.value = "USD";
+        toCurrency.value = "INR";
+
+        async function convertCurrency() {
+            const amountValue = parseFloat(document.getElementById("amount").value);
+            const from = fromCurrency.value;
+            const to = toCurrency.value;
+
+            if (!amountValue || amountValue <= 0) {
+                convertedAmount.value = ""; // Fixed: was convertCurrency.value
+                return;
+            }
+
+            try {
+                const url = `https://api.exchangerate-api.com/v4/latest/${from}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                const rate = data.rates[to];
+                const converted = (amountValue * rate).toFixed(2);
+                convertedAmount.value = converted;
+            } catch (error) {
+                convertedAmount.value = "Error";
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        amount.addEventListener("input", convertCurrency); // Fixed: was amount.input
+        fromCurrency.addEventListener("change", convertCurrency);
+        toCurrency.addEventListener("change", convertCurrency); // Uncommented
+
+        swap.addEventListener("click", () => {
+            const temp = fromCurrency.value;
+            fromCurrency.value = toCurrency.value;
+            toCurrency.value = temp;
+            convertCurrency();
+        });
+
+        // Initialize the converter on page load
+        convertCurrency();
+        
+
+    </script>
+</body>
+</html>
